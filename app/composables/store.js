@@ -7,6 +7,7 @@ import { getProductQuery } from '~/gql/queries/getProduct';
 import { addToCartMutation } from '~/gql/mutations/addToCart';
 import { updateItemQuantitiesMutation } from '~/gql/mutations/updateItemQuantities';
 import { checkoutMutation } from '~/gql/mutations/checkout';
+import { saveCartMutation } from '~/gql/mutations/saveCart';
 
 const promiseCache = new LRUCache({
   max: 500,
@@ -100,4 +101,9 @@ export function updateItemQuantities(input) {
 
 export function checkout(input) {
   return fetchGraphQLMutation(checkoutMutation, { input });
+}
+
+export function saveCart(cart) {
+  // You may want to transform the cart to match the backend input shape
+  return fetchGraphQLMutation(saveCartMutation, { input: { items: cart } });
 }
