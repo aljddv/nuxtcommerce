@@ -18,6 +18,7 @@
     "@nuxt/image": "^1.10.0",
     "@nuxt/ui": "^2.22.0",
     "@nuxthub/core": "0.8.11",
+    "graphql": "^16.11.0",
     "notivue": "^2.4.5",
     "nuxt": "^3.17.5",
     "nuxt-graphql-request": "^8.1.1",
