@@ -1,8 +1,23 @@
-import { gql } from 'nuxt-graphql-request/utils';
+import { gql } from "nuxt-graphql-request/utils";
 
 export const getProductsQuery = gql`
-  query getProducts($after: String, $search: String, $category: String, $order: OrderEnum!, $field: ProductsOrderByEnum!) {
-    products(first: 21, after: $after, where: { stockStatus: IN_STOCK, search: $search, category: $category, orderby: { field: $field, order: $order } }) {
+  query getProducts(
+    $after: String
+    $search: String
+    $category: String
+    $order: OrderEnum!
+    $field: ProductsOrderByEnum!
+  ) {
+    products(
+      first: 21
+      after: $after
+      where: {
+        stockStatus: IN_STOCK
+        search: $search
+        category: $category
+        orderby: { field: $field, order: $order }
+      }
+    ) {
       nodes {
         ... on VariableProduct {
           sku
@@ -11,6 +26,11 @@ export const getProductsQuery = gql`
           regularPrice
           salePrice
           allPaStyle {
+            nodes {
+              name
+            }
+          }
+          productCategories {
             nodes {
               name
             }
@@ -31,6 +51,11 @@ export const getProductsQuery = gql`
           regularPrice
           salePrice
           allPaStyle {
+            nodes {
+              name
+            }
+          }
+          productCategories {
             nodes {
               name
             }
