@@ -1,6 +1,7 @@
 <script setup>
 const { cart, handleRemoveFromCart, removeFromCartButtonStatus } = useCart();
 const { order } = useCheckout();
+const emit = defineEmits(['close-cart-modal']);
 </script>
 
 <template>
@@ -36,7 +37,7 @@ const { order } = useCheckout();
             </div>
           </div>
         </div>
-        <Checkout />
+        <Checkout @close-cart-modal="emit('close-cart-modal')" />
       </div>
       <EmptyCart v-else />
     </Transition>

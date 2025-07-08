@@ -211,7 +211,7 @@ onClickOutside(onClickOutsideRef, event => {
     <UIcon class="text-[#5f5f5f] dark:text-[#b7b7b7]" name="i-iconamoon-close" size="26" />
   </button>
   <Transition name="dropdown">
-    <Cart v-if="cartModal" ref="onClickOutsideRef" />
+    <Cart v-if="cartModal" ref="onClickOutsideRef" @close-cart-modal="cartModal = false" />
   </Transition>
 </template>
 

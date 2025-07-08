@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const { siteName } = useAppConfig();
+const isCheckoutLoading = useState('isCheckoutLoading');
 
 useHead({
   htmlAttrs: {
@@ -26,6 +27,9 @@ useHead({
   <Notivue v-slot="item">
     <Notification :item="item" :theme="materialTheme" />
   </Notivue>
+  <div v-if="isCheckoutLoading" class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/85 backdrop-blur-sm">
+    <div class="text-white text-3xl font-bold animate-pulse">Loading checkout...</div>
+  </div>
 </template>
 
 <style lang="postcss">

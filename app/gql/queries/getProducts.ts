@@ -24,6 +24,26 @@ export const getProductsQuery = gql`
             }
           }
         }
+        ... on SimpleProduct {
+          sku
+          slug
+          name
+          regularPrice
+          salePrice
+          allPaStyle {
+            nodes {
+              name
+            }
+          }
+          image {
+            sourceUrl(size: WOOCOMMERCE_THUMBNAIL)
+          }
+          galleryImages {
+            nodes {
+              sourceUrl(size: WOOCOMMERCE_THUMBNAIL)
+            }
+          }
+        }
       }
       pageInfo {
         hasNextPage

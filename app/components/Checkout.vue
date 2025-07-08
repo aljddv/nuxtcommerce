@@ -1,49 +1,34 @@
 <script setup>
-const { userDetails, checkoutStatus, handleCheckout } = useCheckout();
+const { checkoutStatus, handleCheckout } = useCheckout();
 const { cart } = useCart();
+
+function onSubmit() {
+  emit('close-cart-modal');
+  setTimeout(() => {
+    handleCheckout();
+  }, 50);
+}
 </script>
 
 <template>
   <div class="md:w-96 h-full bg-black/5 dark:bg-white/10 my-3 mr-3 p-3 max-md:ml-3 rounded-3xl">
     <div class="text-xl font-bold px-2 mb-3">Checkout</div>
-    <form @submit.prevent="handleCheckout" class="flex flex-col items-center justify-center">
-      <div class="grid grid-cols-2 gap-3 billing w-full">
-        <div class="col-span-full">
-          <input required v-model="userDetails.email" placeholder="Email address" name="email" type="email" class="" />
-        </div>
-        <div class="col-span-1">
-          <input required v-model="userDetails.firstName" placeholder="First name" name="first-name" type="text" />
-        </div>
-        <div class="col-span-1">
-          <input required v-model="userDetails.lastName" placeholder="Last name" name="last-name" type="text" />
-        </div>
-        <div class="col-span-1">
-          <input required v-model="userDetails.phone" placeholder="Phone number" name="phone" type="text" />
-        </div>
-        <div class="col-span-1">
-          <input required v-model="userDetails.city" placeholder="City" name="city" type="text" />
-        </div>
-        <div class="col-span-full">
-          <textarea required v-model="userDetails.address1" placeholder="Address" name="address" rows="2"></textarea>
-        </div>
-      </div>
-      <div class="text-sm font-semibold p-4 text-neutral-600 dark:text-neutral-400">
-        Paying a total of ${{ cart.reduce((total, item) => total + parseFloat(item.variation.node.salePrice), 0).toFixed(2) }} for {{ cart.length }} products.
-      </div>
-      <button
-        type="submit"
-        :disabled="checkoutStatus !== 'order'"
-        class="pay-button-bezel w-full h-12 rounded-xl relative font-semibold text-white dark:text-black text-lg flex justify-center items-center">
-        <Transition name="slide-up">
-          <div v-if="checkoutStatus === 'order'" class="absolute">Pay ${{ cart.reduce((total, item) => total + parseFloat(item.variation.node.salePrice), 0).toFixed(2) }}</div>
-          <UIcon v-else-if="checkoutStatus === 'processing'" class="absolute" name="i-svg-spinners-90-ring-with-bg" size="22" />
-        </Transition>
-      </button>
-      <div class="text-xs font-medium p-4 flex gap-1 items-end text-neutral-400 dark:text-neutral-600">
-        <UIcon name="i-iconamoon-lock-fill" size="18" />
-        <div>Your payment is secured by Stripe</div>
-      </div>
-    </form>
+    <div class="text-sm font-semibold p-4 text-neutral-600 dark:text-neutral-400">
+      Paying a total of ${{ cart.reduce((total, item) => total + parseFloat(item.variation.node.salePrice), 0).toFixed(2) }} for {{ cart.length }} products.
+    </div>
+    <button
+      @click="handleCheckout"
+      :disabled="checkoutStatus !== 'order'"
+      class="pay-button-bezel w-full h-12 rounded-xl relative font-semibold text-white dark:text-black text-lg flex justify-center items-center">
+      <Transition name="slide-up">
+        <div v-if="checkoutStatus === 'order'" class="absolute">Pay ${{ cart.reduce((total, item) => total + parseFloat(item.variation.node.salePrice), 0).toFixed(2) }}</div>
+        <UIcon v-else-if="checkoutStatus === 'processing'" class="absolute" name="i-svg-spinners-90-ring-with-bg" size="22" />
+      </Transition>
+    </button>
+    <div class="text-xs font-medium p-4 flex gap-1 items-end text-neutral-400 dark:text-neutral-600">
+      <UIcon name="i-iconamoon-lock-fill" size="18" />
+      <div>Your payment is secured by Stripe</div>
+    </div>
   </div>
 </template>
 
