@@ -105,31 +105,20 @@ const { handleAddToCart, addToCartButtonStatus } = useCart();
             <h1 class="text-2xl font-semibold mb-1">{{ product.name }}</h1>
             <div class="flex justify-between flex-row items-baseline">
               <div class="flex flex-row items-baseline">
-                <p class="text-xl font-bold text-alizarin-crimson-700" v-html="product.salePrice"></p>
+                <p v-if="product.salePrice && parseFloat(product.salePrice) < parseFloat(product.regularPrice)" class="text-xl font-bold text-alizarin-crimson-700" v-html="product.salePrice"></p>
+                <p v-else class="text-xl font-bold text-alizarin-crimson-700" v-html="product.regularPrice"></p>
                 <p class="text-sm ml-2">VAT included</p>
               </div>
             </div>
             <div class="flex-wrap items-baseline flex-row flex">
-              <p class="text-sm">Originally:</p>
-              <p class="text-sm ml-1 line-through" v-html="product.regularPrice"></p>
-              <p class="text-sm ml-1 text-alizarin-crimson-700">{{ calculateDiscountPercentage }}%</p>
+              <template v-if="product.salePrice && parseFloat(product.salePrice) < parseFloat(product.regularPrice)">
+                <p class="text-sm">Originally:</p>
+                <p class="text-sm ml-1 line-through" v-html="product.regularPrice"></p>
+                <p class="text-sm ml-1 text-alizarin-crimson-700">{{ calculateDiscountPercentage }}%</p>
+              </template>
             </div>
-          </div>
-
-          <div class="flex gap-2 px-3 lg:px-0" v-for="(variation, i) in product.productTypes?.nodes" :key="i">
-            <div v-for="(vars, i) in variation.products.nodes" :key="i">
-              <NuxtLink
-                :to="`/product/${vars.slug}-${product.sku.split('-')[0]}`"
-                :class="[
-                  'flex w-12 rounded-lg border-2 select-varitaion transition-all duration-200 bg-neutral-200 dark:bg-neutral-800',
-                  vars.allPaColor.nodes[0].name === product.allPaColor.nodes[0].name ? 'selected-varitaion' : 'border-[#9b9b9b] dark:border-[#8c8c8c]',
-                ]">
-                <NuxtImg
-                  :alt="vars.allPaColor.nodes[0].name"
-                  :src="vars.image.sourceUrl"
-                  :title="vars.allPaColor.nodes[0].name"
-                  class="rounded-md border-2 border-white dark:border-black" />
-              </NuxtLink>
+            <div class="text-sm font-normal text-[#5f5f5f] dark:text-[#a3a3a3] mt-2">
+              {{ product.productCategories?.nodes?.[0]?.name || '' }}
             </div>
           </div>
 
